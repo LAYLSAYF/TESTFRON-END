@@ -4,7 +4,7 @@
     <div class="text-center">
         <b><p class="">Affichage du tableau</p></b>
     </div>
-        
+        Rechercher <input placeholder="fitrer" class="form-control" v-model="searchText">
         <table id="data-table" class="table table-striped table-condensed table-hover">
           <thead>
             <tr>
@@ -33,7 +33,7 @@
               <td v-if="data.last_comment.length<15">{{data.last_comment}}</td>
               <td v-if="data.last_comment.length>=15">{{data.last_comment.substring(0,15)+"..." }}
               </td>
-              <td></td>
+              <td><button>Détails</button></td>
             </tr>
           </tbody>
         </table>
@@ -50,8 +50,6 @@ import columnSortable from 'vue-column-sortable'
 export default
 {
     data(){
-      perPage: 10
-      currentPage: 1
       return{
         items: json
       }
