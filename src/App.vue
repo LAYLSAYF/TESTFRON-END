@@ -115,31 +115,30 @@ import moment from 'moment'
         fields: [
           { key: 'id', label: 'ID' , sortable: true },
           { key: 'attachments', label: 'PJ' ,sortable: true  },
-          { key: 'customer.last_name', label: 'DE', sortable: true  },
+          { 
+            key: 'customer.last_name', 
+            formatter: (value, key, item) => {    
+                  return item.customer.last_name +' '+ item.customer.first_name
+            },      
+            label: 'DE',
+            sortable: true  
+          },
           { key: 'status', label: 'Statut', sortable: true },
           { 
               key: 'interaction_creation_date', 
               formatter: value => {
-                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+                return value
               }, 
               label: 'Création ', 
               sortable: true  
           },
-          { 
-              key: 'due_date',
-              formatter: value => {
-                return moment(String(value)).format('DD/MM/YYYY hh:mm')
-              }, 
-              label: 'Echéance', 
-              sortable: true, 
-
-          },
+          { key: 'due_date', label: 'Echéance', sortable: true  },
           { key: 'contact_channel', label: 'Compétence', sortable: true  },
           { key: 'assignedTO', label: 'Assigné', sortable: true  },
           {  
             key: 'last_comment', 
             formatter: value => {
-                return value.substring(0, 10) + '...'
+                return value.substring(0, 25) + '...'
             },
             label: 'Dernier commentaire' , 
             sortable: true
@@ -167,9 +166,14 @@ import moment from 'moment'
       this.totalRows = this.items.length
     },
     methods: {
-        onFiltered(filteredItems) {
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
+      onFiltered(filteredItems) {
+          this.totalRows = filteredItems.length
+          this.currentPage = 1
+      }
+    },
+    filters: {
+      formatDate: function(value) {
+        return moment(String(value)).format('DD/MM/YYYY hh:mm')
       }
     }
   }
