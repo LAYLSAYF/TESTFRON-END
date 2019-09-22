@@ -99,6 +99,7 @@
 <script>
 import HelloWorld from './components/HelloWorld'
 import json from './json/MOCK_DATA.json'
+import moment from 'moment'
 
   export default {
     data() {
@@ -116,17 +117,33 @@ import json from './json/MOCK_DATA.json'
           { key: 'attachments', label: 'PJ' ,sortable: true  },
           { key: 'customer.last_name', label: 'DE', sortable: true  },
           { key: 'status', label: 'Statut', sortable: true },
-          { key: 'interaction_creation_date', label: 'Création', sortable: true  },
-          { key: 'due_date', label: 'Echéance', sortable: true  },
+          { 
+              key: 'interaction_creation_date', 
+              formatter: value => {
+                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+              }, 
+              label: 'Création ', 
+              sortable: true  
+          },
+          { 
+              key: 'due_date',
+              formatter: value => {
+                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+              }, 
+              label: 'Echéance', 
+              sortable: true, 
+
+          },
           { key: 'contact_channel', label: 'Compétence', sortable: true  },
           { key: 'assignedTO', label: 'Assigné', sortable: true  },
           {  
-          key: 'last_comment', 
-          formatter: value => {
-              return value.substring(0, 10) + '...'
+            key: 'last_comment', 
+            formatter: value => {
+                return value.substring(0, 10) + '...'
+            },
+            label: 'Dernier commentaire' , 
+            sortable: true
           },
-          label: 'Dernier commentaire' , 
-          sortable: true },
           'show_details'
         ],
         items: json
