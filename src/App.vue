@@ -1,10 +1,7 @@
 <template>
     <div id="app">
     <b-container>
-    <div class="text-center">
-        <b><p>Affichage du tableau</p></b>
-    </div>
-    
+    <br/> <br />    
     <b-col lg="12" class="my-1">
         <b-form-group
           label="Filtrer"
