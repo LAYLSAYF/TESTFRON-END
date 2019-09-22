@@ -9,6 +9,7 @@ import moment from 'moment'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import columnSortable from 'vue-column-sortable'
+
 Vue.use(columnSortable)
 Vue.use(BootstrapVue);
 
@@ -22,20 +23,17 @@ Vue.filter('formatDate', function(value) {
   }
 });
 
+Vue.filter('readMore', function (text, length, suffix) {
+    return text.substring(0, length) + suffix;
+});
+
 
 import json from './json/MOCK_DATA.json'
 
  new Vue({
   el: "#app",
   components: { App },
-  template: '<App/>',
-  data:{
-	  items:[],
-	  currentSort:'name',
-	  currentSortDir:'asc',
-	  pageSize:3,
-	  currentPage:1
-  }
+  template: '<App/>'
 });
 
 
