@@ -8,20 +8,20 @@
         <table id="data-table" class="table table-striped table-condensed table-hover">
           <thead>
             <tr>
-              <th class="col-md-4" v-column-sortable:id>Id</th>
-              <th class="col-md-4" v-column-sortable:attachments>PJ</th>
-              <th class="col-md-4" v-column-sortable:first_name>De</th>
-              <th class="col-md-4" v-column-sortable:status>Statut</th>
-              <th class="col-md-4" v-column-sortable:interaction_creation_date>Création</th> 
-              <th class="col-md-4" v-column-sortable:due_date>Echéance</th>
-              <th class="col-md-4" v-column-sortable:contact_channel>Compétence</th>
-              <th class="col-md-4" v-column-sortable:assignedTO>Assigné</th>
-              <th class="col-md-4" v-column-sortable:last_comment >Dernier commentaire</th>
-              <th class="col-md-4" >Actions</th>
+              <th class="col-md-4" @click="sort('id')">Id</th>
+              <th class="col-md-4" @click="sort('attachments')">PJ</th>
+              <th class="col-md-4" @click="sort('first_name')">De</th>
+              <th class="col-md-4" @click="sort('status')">Statut</th>
+              <th class="col-md-4" @click="sort('interaction_creation_date')">Création</th> 
+              <th class="col-md-4" @click="sort('due_date')">Echéance</th>
+              <th class="col-md-4" @click="sort('contact_channel')">Compétence</th>
+              <th class="col-md-4" @click="sort('assignedTO')">Assigné</th>
+              <th class="col-md-4" @click="sort('last_comment')">Dernier commentaire</th>
+              <th class="col-md-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="data in items">
+            <tr v-for="data in sortedItems">
               <td >{{data.id}}</td>
               <td >{{data.attachments}}</td>
               <td>{{data.customer.first_name}} {{data.customer.last_name}}</td>
@@ -33,42 +33,68 @@
               <td v-if="data.last_comment.length<15">{{data.last_comment}}</td>
               <td v-if="data.last_comment.length>=15">{{data.last_comment.substring(0,15)+"..." }}
               </td>
-              <td><button>Détails</button></td>
+              <td>
+              <b-button>Détails</b-button>
+              </td>
             </tr>
           </tbody>
         </table>
-        </b-container>
+        <div class="text-center">
+        <p>
+        <b-button variant="primary" @click="prevPage">Précedent</b-button>
+        <b-button variant="primary" @click="nextPage">Suivant</b-button>
+        </p>
+        </div>
+                </b-container>
     </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
 import json from './json/MOCK_DATA.json'
-import columnSortable from 'vue-column-sortable'
-
 
 export default
 {
     data(){
       return{
+        items:[],
+        currentSort:'name',
+        currentSortDir:'asc',
+        pageSize:10,
+        currentPage:1,
         items: json
       }
     }, 
     computed: {
-      rows() {
-        return this.items.length
-      }
+      sortedItems:function() {
+  return this.items.sort((a,b) => {
+    let modifier = 1;
+    if(this.currentSortDir === 'desc') modifier = -1;
+    if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+    if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+    return 0;
+  }).filter((row, index) => {
+    let start = (this.currentPage-1)*this.pageSize;
+    let end = this.currentPage*this.pageSize;
+    if(index >= start && index < end) return true;
+  });
+}
     },
     methods: {
-      orderBy(fn) {
-        this.items.sort(fn);
+      sort:function(s) {
+        //if s == current sort, reverse
+        if(s === this.currentSort) {
+          this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+        }
+        this.currentSort = s;
+      },
+      nextPage:function() {
+        if((this.currentPage*this.pageSize) < this.items.length) this.currentPage++;
+      },
+      prevPage:function() {
+        if(this.currentPage > 1) this.currentPage--;
       }
-    },
-    directives: {
-      columnSortable,
-    },
+    }
 }
 </script>
-<style>
-
-</style>
+<style></style>

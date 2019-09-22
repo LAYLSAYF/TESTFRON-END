@@ -25,8 +25,21 @@ Vue.filter('formatDate', function(value) {
 
 import json from './json/MOCK_DATA.json'
 
-new Vue({
+ new Vue({
   el: "#app",
   components: { App },
   template: '<App/>',
-})
+  data:{
+	  items:[],
+	  currentSort:'name',
+	  currentSortDir:'asc',
+	  pageSize:3,
+	  currentPage:1
+  }
+});
+
+
+
+
+
+
