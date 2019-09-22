@@ -127,12 +127,19 @@ import moment from 'moment'
           { 
               key: 'interaction_creation_date', 
               formatter: value => {
-                return value
+                return moment(String(value)).format('DD/MM/YYYY hh:mm')
               }, 
-              label: 'Création ', 
+              label: 'Création', 
               sortable: true  
           },
-          { key: 'due_date', label: 'Echéance', sortable: true  },
+          { 
+              key: 'due_date', 
+              formatter: value => {
+                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+              },
+              label: 'Echéance',
+              sortable: true  
+          },
           { key: 'contact_channel', label: 'Compétence', sortable: true  },
           { key: 'assignedTO', label: 'Assigné', sortable: true  },
           {  
