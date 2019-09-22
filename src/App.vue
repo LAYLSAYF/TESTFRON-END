@@ -120,7 +120,13 @@ import json from './json/MOCK_DATA.json'
           { key: 'due_date', label: 'Echéance', sortable: true  },
           { key: 'contact_channel', label: 'Compétence', sortable: true  },
           { key: 'assignedTO', label: 'Assigné', sortable: true  },
-          { key: 'last_comment', label: 'Dernier commentaire' , sortable: true },
+          {  
+          key: 'last_comment', 
+          formatter: value => {
+              return value.substring(0, 10) + '...'
+          },
+          label: 'Dernier commentaire' , 
+          sortable: true },
           'show_details'
         ],
         items: json
